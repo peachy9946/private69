@@ -11,10 +11,8 @@ jobs:
     - run: Install-Module -Name Microsoft.WinGet.Client -Force
     - run: Repair-WinGetPackageManager -Latest -AllUsers
     - run: winget install --id WireGuard.WireGuard --accept-source-agreements
-    - name: InstallerHashOverride
-      run: winget settings --enable InstallerHashOverride
     - name: Install Free Download Manager
-      run: winget install --id SoftDeluxe.FreeDownloadManager --accept-source-agreements --accept-package-agreements --ignore-security-hash
+      run: winget install --id SoftDeluxe.FreeDownloadManager --version 6.33.2.6656 --accept-source-agreements --accept-package-agreements
     - name: Install OneDrive
       run: winget install --id Microsoft.OneDrive --accept-source-agreements --accept-package-agreements
     - name: Enable TS
