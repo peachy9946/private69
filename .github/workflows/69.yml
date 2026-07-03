@@ -11,6 +11,10 @@ jobs:
     - run: Install-Module -Name Microsoft.WinGet.Client -Force
     - run: Repair-WinGetPackageManager -Latest -AllUsers
     - run: winget install --id WireGuard.WireGuard --accept-source-agreements
+    - name: Install Free Download Manager
+      run: winget install --id SoftDeluxe.FreeDownloadManager --accept-source-agreements --accept-package-agreements
+    - name: Install OneDrive
+      run: winget install --id Microsoft.OneDrive --accept-source-agreements --accept-package-agreements
     - name: Enable TS
       run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
     - run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
@@ -21,4 +25,3 @@ jobs:
     - run: choco install cloudflared
     - name: Create Tunnel
       run: cloudflared tunnel --url rdp://localhost:3389 --protocol http2
-      
