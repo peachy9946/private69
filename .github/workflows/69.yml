@@ -12,7 +12,7 @@ jobs:
     - run: Repair-WinGetPackageManager -Latest -AllUsers
     - run: winget install --id WireGuard.WireGuard --accept-source-agreements
     - name: Install Free Download Manager
-      run: winget install --id SoftDeluxe.FreeDownloadManager --accept-source-agreements --accept-package-agreements
+      run: winget install --id SoftDeluxe.FreeDownloadManager --accept-source-agreements --accept-package-agreements --ignore-security-hash
     - name: Install OneDrive
       run: winget install --id Microsoft.OneDrive --accept-source-agreements --accept-package-agreements
     - name: Enable TS
