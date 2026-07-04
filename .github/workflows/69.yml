@@ -19,6 +19,9 @@ jobs:
       - name: Install Windows Terminal
         run: winget install --id Microsoft.WindowsTerminal --source winget --accept-source-agreements --accept-package-agreements
 
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
       - name: Copy zip to D drive
         run: Copy-Item "$env:GITHUB_WORKSPACE\pack.zip" "D:\pack.zip"
 
