@@ -11,6 +11,9 @@ jobs:
     - run: Install-Module -Name Microsoft.WinGet.Client -Force
     - run: Repair-WinGetPackageManager -Latest -AllUsers
     - run: winget install --id WireGuard.WireGuard --accept-source-agreements
+    - name: Install Internet Archive CLI
+      run: |
+          pipx install internetarchive
     - name: Install Free Download Manager
       run: winget install --id XPDLMKFTXTDHSD --source msstore --accept-package-agreements --accept-source-agreements
     - name: Install OneDrive
