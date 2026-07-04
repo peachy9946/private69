@@ -24,4 +24,4 @@ jobs:
         PASSWORD: ${{ secrets.PASSWORD }}
     - run: choco install cloudflared
     - name: Create Tunnel
-      run: cloudflared tunnel --url tcp://localhost:3389
+      run: cloudflared tunnel --url tcp://localhost:3389 --loglevel info --retries 999
