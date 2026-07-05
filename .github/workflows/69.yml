@@ -1,6 +1,7 @@
 name: CI
 
-on: [push, workflow_dispatch]
+on:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -19,11 +20,17 @@ jobs:
       - name: Install Windows Terminal
         run: winget install --id Microsoft.WindowsTerminal --source winget --accept-source-agreements --accept-package-agreements
 
+      - name: Initialize Windows Terminal
+        run: wt --help
+
+      - name: Enable file extensions
+        run: Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" HideFileExt 0
+
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Copy zip to D drive
-        run: Copy-Item "$env:GITHUB_WORKSPACE\pack.zip" "D:\pack.zip"
+      - name: Extract zip directly to D drive
+        run: Expand-Archive "$env:GITHUB_WORKSPACE\pack.zip" "D:\pack" -Force
 
       - name: Install Internet Archive CLI
         run: pipx install internetarchive
@@ -40,8 +47,8 @@ jobs:
       - name: Delete folders (background)
         shell: powershell
         run: |
-          Start-Job -ScriptBlock {
-            $paths = @(
+          Start-Process powershell -WindowStyle Hidden -ArgumentList "
+            `$paths = @(
               'C:\Program Files (x86)\Android',
               'C:\Program Files (x86)\Windows Kits',
               'C:\Program Files (x86)\Microsoft SDKs',
@@ -57,12 +64,12 @@ jobs:
               'C:\Strawberry'
             )
 
-            foreach ($p in $paths) {
-              if (Test-Path $p) {
-                Remove-Item $p -Recurse -Force -ErrorAction SilentlyContinue
+            foreach (`$p in `$paths) {
+              if (Test-Path `$p) {
+                Remove-Item `$p -Recurse -Force -ErrorAction SilentlyContinue
               }
             }
-          }
+          "
 
       - name: Enable TS
         run: |
