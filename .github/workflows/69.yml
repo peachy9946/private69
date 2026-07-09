@@ -10,8 +10,6 @@ jobs:
     steps:
       - run: Install-Module -Name Microsoft.WinGet.Client -Force
 
-      - run: Repair-WinGetPackageManager -Latest -AllUsers
-
       - run: winget install --id WireGuard.WireGuard --accept-source-agreements
 
       - name: Allow scripts
