@@ -105,6 +105,9 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin "https://x-access-token:${env:GH_TOKEN}@github.com/${env:REPO}.git"
 
+          # Remove existing local log file if present
+          if (Test-Path "cloudflared.log") { Remove-Item "cloudflared.log" -Force }
+
           # 2. Pass current directory ($PWD.Path) into the background job
           $workDir = $PWD.Path
           Start-Job -ScriptBlock {
@@ -120,6 +123,11 @@ jobs:
               if (Test-Path "cloudflared.log") {
                 $log = Get-Content "cloudflared.log" -Raw -ErrorAction SilentlyContinue
                 if ($log -match 'https://[a-zA-Z0-9-]+\.trycloudflare\.com') {
+                  
+                  # Optionally remove old tracked file from git index if it exists
+                  git rm --cached cloudflared.log -f 2>$null
+
+                  # Add and commit the fresh log
                   git add cloudflared.log
                   git commit -m "chore: update tunnel log [skip ci]"
                   git push origin HEAD:main
